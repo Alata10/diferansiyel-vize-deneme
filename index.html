@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diferansiyel Denklemler · Vize Deneme Sınavı (A/B Grubu)</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<style>
+:root{
+  --bg:#f4f6fb; --card:#ffffff; --ink:#1d2433; --muted:#5b6478; --line:#dfe4ee;
+  --pri:#1f4e8c; --pri2:#2f6fc4; --ok:#1d8a4e; --okbg:#e6f6ec; --bad:#c0392b; --badbg:#fdecea;
+  --warn:#b7791f; --warnbg:#fff7e6; --sel:#e8f0fc;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+header{background:linear-gradient(135deg,#163a6b,#2f6fc4);color:#fff;padding:22px 16px 18px}
+header .wrap{max-width:960px;margin:0 auto}
+header h1{margin:0 0 4px;font-size:1.45rem}
+header p{margin:0;opacity:.9;font-size:.95rem}
+.wrap{max-width:960px;margin:0 auto;padding:0 14px}
+.notice{background:var(--warnbg);border:1px solid #f1d49b;color:#6b4a10;border-radius:10px;padding:10px 14px;margin:16px 0;font-size:.92rem}
+nav.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0}
+nav.tabs button{border:1px solid var(--line);background:#fff;padding:9px 14px;border-radius:999px;cursor:pointer;font-weight:600;color:var(--muted)}
+nav.tabs button.active{background:var(--pri);border-color:var(--pri);color:#fff}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;position:sticky;top:0;z-index:5;box-shadow:0 2px 8px rgba(20,40,80,.06)}
+.toolbar .grp{display:flex;gap:6px;align-items:center}
+.toolbar label{font-size:.88rem;color:var(--muted);font-weight:600}
+.seg button{border:1px solid var(--line);background:#fff;padding:6px 12px;cursor:pointer;font-weight:700;color:var(--muted)}
+.seg button:first-child{border-radius:8px 0 0 8px}.seg button:last-child{border-radius:0 8px 8px 0}
+.seg button.active{background:var(--pri2);color:#fff;border-color:var(--pri2)}
+.timer{font-variant-numeric:tabular-nums;font-weight:700;background:#eef3fb;color:var(--pri);padding:6px 10px;border-radius:8px}
+.progress{font-weight:700;color:var(--muted);font-size:.9rem}
+.spacer{flex:1}
+.btn{border:none;background:var(--pri);color:#fff;padding:9px 16px;border-radius:9px;font-weight:700;cursor:pointer}
+.btn.sec{background:#e9eef7;color:var(--pri)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.exam-head{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:16px 0}
+.exam-head h2{margin:0 0 6px;font-size:1.15rem}
+.exam-head .meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:6px 18px;font-size:.92rem;color:var(--muted)}
+.exam-head ol{margin:10px 0 0;padding-left:20px;font-size:.9rem;color:var(--muted)}
+.block{background:#eef3fb;border:1px dashed #9db6dc;border-radius:12px;padding:12px 16px;margin:22px 0 10px}
+.block .bt{font-weight:800;color:var(--pri);font-size:.9rem;text-transform:uppercase;letter-spacing:.03em;margin-bottom:4px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0}
+.q.correct{border-color:#9ad3b1;box-shadow:inset 4px 0 0 var(--ok)}
+.q.wrong{border-color:#efb1aa;box-shadow:inset 4px 0 0 var(--bad)}
+.q.blank{border-color:#f1d49b;box-shadow:inset 4px 0 0 var(--warn)}
+.qh{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.qn{background:var(--pri);color:#fff;font-weight:800;border-radius:8px;padding:2px 10px}
+.topic{font-size:.8rem;font-weight:700;color:var(--pri2);background:#eaf1fc;border-radius:999px;padding:2px 10px}
+.pts{margin-left:auto;font-size:.8rem;color:var(--muted)}
+.qt{font-size:1.02rem;margin:4px 0 10px}
+.opts{display:grid;gap:7px}
+.opt{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:10px;padding:9px 12px;cursor:pointer;background:#fff;transition:background .12s,border-color .12s}
+.opt:hover{background:#f7f9fd}
+.opt .L{flex:0 0 30px;height:30px;border-radius:50%;border:2px solid #b8c3d6;display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--muted)}
+.opt.sel{background:var(--sel);border-color:var(--pri2)}
+.opt.sel .L{background:var(--pri2);border-color:var(--pri2);color:#fff}
+.opt.isok{background:var(--okbg);border-color:#8fcca8}
+.opt.isok .L{background:var(--ok);border-color:var(--ok);color:#fff}
+.opt.isbad{background:var(--badbg);border-color:#eaa39b}
+.opt.isbad .L{background:var(--bad);border-color:var(--bad);color:#fff}
+.locked .opt{cursor:default}
+details.sol{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+details.sol summary{cursor:pointer;font-weight:700;color:var(--pri)}
+.solbody{margin-top:8px;font-size:.97rem;overflow-x:auto}
+.trap{background:var(--badbg);border-left:4px solid var(--bad);padding:8px 12px;border-radius:6px;margin:10px 0;font-size:.93rem}
+.src{background:#f1f4f9;border-left:4px solid #8a9ab5;padding:8px 12px;border-radius:6px;margin:10px 0;font-size:.88rem;color:var(--muted)}
+.result{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin:16px 0;display:none}
+.result.show{display:block}
+.score{font-size:2.2rem;font-weight:800;color:var(--pri)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{padding:4px 10px;border-radius:999px;font-weight:700;font-size:.85rem;cursor:pointer}
+.chip.c{background:var(--okbg);color:var(--ok)}.chip.w{background:var(--badbg);color:var(--bad)}.chip.b{background:var(--warnbg);color:var(--warn)}
+.panel{display:none}.panel.active{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:14px 0}
+.card h3{margin-top:0;color:var(--pri)}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+th{background:#eef3fb}
+blockquote{margin:10px 0;padding:12px 16px;background:#f7f9fd;border-left:4px solid var(--pri2);border-radius:6px;white-space:pre-wrap;font-size:.92rem}
+.keygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+footer{color:var(--muted);font-size:.82rem;text-align:center;padding:30px 10px}
+@media print{header,nav.tabs,.toolbar,.notice,footer{display:none}.q{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Diferansiyel Denklemler — Vize Deneme Sınavı</h1>
+    <p>Isparta Uygulamalı Bilimler Üniversitesi · Teknoloji Fakültesi · Prof. Dr. Gözde ÖZKAN TÜKEL'in ders materyallerinin tarzında hazırlanmıştır</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="notice">
+    <b>Not:</b> Bu, gerçek vize sınavı <b>değildir</b>. Hocanın paylaştığı ders materyalleri (1. hafta tanıtım, 2-3. hafta slaytları, 1-5. hafta ders notu, güncel ders notu ve 7. hafta vize hazırlık soruları) analiz edilerek
+    hazırlanmış <b>tahmini bir deneme sınavıdır</b>. Tüm şıklar bilgisayar cebiriyle (SymPy) tek tek doğrulanmıştır: her soruda yalnızca bir şık denklemi sağlar.
+  </div>
+
+  <nav class="tabs">
+    <button data-tab="exam" class="active">📝 Sınav</button>
+    <button data-tab="analysis">🧠 Hocanın Tarzı (Analiz)</button>
+    <button data-tab="key">🔑 Cevap Anahtarı</button>
+  </nav>
+
+  <!-- ================= SINAV ================= -->
+  <section id="panel-exam" class="panel active">
+    <div class="toolbar">
+      <div class="grp"><label>Grup</label>
+        <div class="seg" id="segGroup"><button data-g="A" class="active">A</button><button data-g="B">B</button></div>
+      </div>
+      <div class="grp"><label>Mod</label>
+        <div class="seg" id="segMode"><button data-m="exam" class="active">Sınav</button><button data-m="study">Çalışma</button></div>
+      </div>
+      <span class="timer" id="timer">⏱ 00:00</span>
+      <span class="progress" id="progress">0/10 işaretli</span>
+      <span class="spacer"></span>
+      <button class="btn sec" id="btnReset">Sıfırla</button>
+      <button class="btn" id="btnFinish">Sınavı Bitir</button>
+    </div>
+
+    <div class="result" id="result"></div>
+
+    <div class="exam-head" id="examHead"></div>
+    <div id="questions"></div>
+  </section>
+
+  <!-- ================= ANALİZ ================= -->
+  <section id="panel-analysis" class="panel">
+    <div class="card">
+      <h3>1. İncelenen materyaller</h3>
+      <table>
+        <tr><th>Dosya</th><th>İçerik</th><th>Sınav için önemi</th></tr>
+        <tr><td>1. Hafta – Dersin Tanıtımı (36 slayt)</td><td>Mühendislik motivasyonu, dönem planı, sınav sistemi</td><td>Vize konuları ve sınav felsefesi burada yazıyor</td></tr>
+        <tr><td>2-3. Hafta slaytları (140 slayt)</td><td>Temel kavramlar, çözüm türleri, BDP/SDP, eğri aileleri, değişkenlerine ayırma, \(f(ax+by+c)\) tipi</td><td>“Sıra sizde” ve “Ek sorular” bölümleri</td></tr>
+        <tr><td>1-5. Hafta Ders Notu (30 sayfa)</td><td>Tam diferansiyel ve integral çarpanına kadar</td><td>Notun eski sürümü</td></tr>
+        <tr><td>Güncel Ders Notu (33 sayfa)</td><td>Lineer, Bernoulli, Riccati dahil tüm vize konuları + <b>cevapsız alıştırmalar (A–I)</b></td><td><b>Ana soru havuzu</b></td></tr>
+        <tr><td>7. Hafta – Vize Hazırlık Soruları (23 soru)</td><td>5 şıklı (a–e) test, bağlantılı soru blokları, cevap anahtarı</td><td><b>Sınav formatının birebir örneği</b></td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>2. Hocanın sınav felsefesi (1. hafta, “Sınav Sistemi” slaytı)</h3>
+      <ul>
+        <li>Vize %40, final %60. Vize, <b>vize öncesi konulardan</b> yapılır.</li>
+        <li>“Sorular, <b>derste birlikte çözdüklerimizin tipinde</b> işlem soruları olacak; <b>sürpriz yok</b>.”</li>
+        <li>“Ezberden çok <b>doğru yöntemi seçmek</b> puan getirir: ‘Bu denklem hangi tipte?’ diyebilmek işin yarısı.”</li>
+        <li>“Bu dersin çoğu sorusu aslında <b>doğru dönüşüm + bir integral</b>.”</li>
+      </ul>
+      <p><b>Vize konuları:</b> temel kavramlar · değişkenlerine ayrılabilir · homojen · homojen hale dönüştürülebilen · tam diferansiyel · integral çarpanı · lineer (sabitlerin değişimi, yerine koyma, integral çarpanı) · Bernoulli · Riccati · mühendislik uygulamaları.</p>
+    </div>
+
+    <div class="card">
+      <h3>3. 7. hafta hazırlık setinin yapısı (sınavın kalıbı)</h3>
+      <table>
+        <tr><th>Blok</th><th>Konu</th><th>Soru</th><th>Yapı</th></tr>
+        <tr><td>A</td><td>Tanıma (mertebe/derece/lineerlik, tip belirleme)</td><td>1–4</td><td>Tekil sorular</td></tr>
+        <tr><td>B</td><td>Değişkenlerine ayrılabilir</td><td>5</td><td>Tekil (= Ders Notu Alıştırma D.2)</td></tr>
+        <tr><td>C</td><td>Homojen hale dönüştürülebilen</td><td>6–8</td><td>Bağlantılı: (h,k) → ayrılmış denklem → genel çözüm</td></tr>
+        <tr><td>D</td><td>Tam diferansiyel ve integral çarpanı</td><td>9–13</td><td>Bağlantılı: μ → genel çözüm → BDP; ikinci denklemde μ(y)</td></tr>
+        <tr><td>E</td><td>Lineer</td><td>14–16</td><td>Bağlantılı: μ (standart biçim tuzağı) → genel çözüm → BDP</td></tr>
+        <tr><td>F</td><td>Bernoulli</td><td>17–18</td><td>Bağlantılı: z-denklemi → genel çözüm</td></tr>
+        <tr><td>G</td><td>Riccati \(y=y_1+1/z\)</td><td>19–20</td><td>Bağlantılı (= Alıştırma I.1)</td></tr>
+        <tr><td>H</td><td>Riccati \(y=y_1+z\)</td><td>21–23</td><td>Bağlantılı: Bernoulli → lineer → genel çözüm</td></tr>
+      </table>
+      <p style="margin-top:10px"><b>Tespitler:</b></p>
+      <ul>
+        <li><b>Format:</b> her soruda 5 şık (a–e), sonda cevap anahtarı. Uzun çözümlü denklemlerde “<i>Sorular x–y için verilen denklem</i>” başlığıyla <b>bağlantılı sorular</b> var.</li>
+        <li><b>Soru kaynağı:</b> Soru 5 = Alıştırma D.2; Soru 19–20 = Alıştırma I.1; Soru 17–18 = Örnek 5.41'in \(x\)'e bölünmüş hâli; Soru 12–13, Örnek 5.26'nın varyasyonu. Yani hoca <b>ders notundaki cevapsız alıştırmaları ve örneklerin varyasyonlarını</b> kullanıyor.</li>
+        <li><b>Sonuç biçimi:</b> kesirler ortak katla temizleniyor (“iki taraf 6 ile çarpılır”), sabitler yeniden adlandırılıyor (“3c yeniden c olarak adlandırılır”).</li>
+        <li><b>Çeldiriciler</b> tipik hatalardan geliyor: kökten kurtarmadan derece okumak, standart biçime getirmeden \(P(x)\) okumak (\(e^{2x}\) şıkkı), Bernoulli/Riccati dönüşümünde eksi işaretini unutmak, \((h,k)\) sırasını karıştırmak, \(X,Y\)'den \(x,y\)'ye dönmeyi unutmak.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>4. 23 sorudan 10 soruya ölçekleme</h3>
+      <table>
+        <tr><th>Konu</th><th>Hazırlık setinde</th><th>Bu denemede</th><th>A grubu kaynağı</th><th>B grubu kaynağı</th></tr>
+        <tr><td>Tanıma</td><td>4/23</td><td>2</td><td>Alıştırma A.2 + tip belirleme</td><td>Alıştırma A.3 + tamlık testi (F.1)</td></tr>
+        <tr><td>Değişkenlerine ayrılabilir</td><td>1/23</td><td>1</td><td>Alıştırma D.4 (BDP)</td><td>Alıştırma D.3 (BDP)</td></tr>
+        <tr><td>Homojen hale dönüştürülebilen</td><td>3/23</td><td>2 (bağlantılı)</td><td>Alıştırma E.5 (kesişen doğrular)</td><td>Alıştırma E.6 (paralel doğrular)</td></tr>
+        <tr><td>Tam dif. + integral çarpanı</td><td>5/23</td><td>2 (bağlantılı)</td><td>Alıştırma F.6 (μ(x))</td><td>Alıştırma F.7 (μ(y))</td></tr>
+        <tr><td>Lineer</td><td>3/23</td><td>1</td><td>Alıştırma G.3 (BDP)</td><td>Alıştırma G.5</td></tr>
+        <tr><td>Bernoulli</td><td>2/23</td><td>1</td><td>Alıştırma H.3</td><td>Alıştırma H.5 (n = −1)</td></tr>
+        <tr><td>Riccati</td><td>5/23</td><td>1</td><td>Alıştırma I.3</td><td>Alıştırma I.2</td></tr>
+      </table>
+      <p style="margin-top:8px">Hazırlık setinde zaten çözülmüş alıştırmalar (D.2, I.1) bilinçli olarak tekrar edilmedi. Kalan <b>cevapsız alıştırmalar</b> en olası soru havuzu olduğu için sorular onlardan seçildi.</p>
+    </div>
+
+    <div class="card">
+      <h3>5. Hocanın Claude'a yazmış olabileceği prompt (tahmini)</h3>
+      <blockquote>Ekte Diferansiyel Denklemler dersimin 1. hafta tanıtım sunumu, haftalık slaytları, ders notu ve 7. hafta vize hazırlık soruları var. Bu materyallere dayanarak vize için 10 soruluk, her soruda 5 seçenekli (a–e) çoktan seçmeli bir test hazırla.
+
+Kurallar:
+1) Sorular derste çözdüğümüz örneklerin ve ders notundaki alıştırmaların tipinde işlem soruları olsun; müfredat dışı sürpriz olmasın.
+2) Konular: mertebe-derece-lineerlik / tip belirleme, değişkenlerine ayrılabilir, homojen ve homojen hale dönüştürülebilen, tam diferansiyel ve integral çarpanı, lineer, Bernoulli, Riccati.
+3) Uzun çözümlü denklemlerde aynı denklem üzerinden bağlantılı sorular sor (önce dönüşüm / integral çarpanı, sonra genel çözüm).
+4) Çeldiriciler gerçek öğrenci hatalarından gelsin: işaret hatası, standart biçime getirmeden P(x) okumak, X,Y'den x,y'ye dönmemek, sabiti yanlış bulmak.
+5) Sonuçlarda kesirleri ortak katla temizle, sabitleri yeniden adlandır.
+6) Beamer formatında hazırla, sonda cevap anahtarı olsun.</blockquote>
+    </div>
+
+    <div class="card">
+      <h3>6. Hocanın kendi uyarıları (7. hafta son slayt: “Sınavda nelere dikkat edilmeli?”)</h3>
+      <ul>
+        <li>Denklem her zaman önce <b>standart biçime</b> getirilir; tip ancak ondan sonra belli olur.</li>
+        <li>Lineer ve Bernoulli sorularında <b>P ile Q yanlış okunursa</b> bütün çözüm kayar.</li>
+        <li>Öteleme yapılan sorularda sonuçta <b>X, Y yerine x, y</b> yazmak unutulmamalıdır.</li>
+        <li>Şıklar birbirine yakın olduğunda, bulunan çözümü <b>denklemde yerine koyarak kontrol etmek</b> en hızlı yoldur.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= CEVAP ANAHTARI ================= -->
+  <section id="panel-key" class="panel">
+    <div class="card">
+      <h3>Cevap anahtarı</h3>
+      <p id="keyLockMsg">Kendini denemeden bakma! Yine de görmek istersen aşağıdaki butona bas.</p>
+      <button class="btn" id="btnShowKey">Cevap anahtarını göster</button>
+      <div class="keygrid" id="keyGrid" style="display:none;margin-top:14px"></div>
+    </div>
+  </section>
+</div>
+
+<footer>Diferansiyel Denklemler · Vize deneme sınavı · Kişisel çalışma amaçlıdır.</footer>
+
+<script>
+/* ============================================================
+   SORU VERİSİ
+   opts[0] her zaman DOĞRU şıktır; "pos" doğru şıkkın ekranda
+   hangi harfe yerleşeceğini belirler. Diğer şıklar sırayla dizilir.
+   ============================================================ */
+const R = String.raw;
+const EXAMS = {
+A: {
+  name: "A Grubu",
+  blocks: {
+    4: R`<div class="bt">Sorular 4–5 için verilen denklem</div>\[(x-y-1)\,dx+(x+4y-6)\,dy=0\]diferansiyel denklemi veriliyor. Buna göre aşağıdaki soruları cevaplayınız.`,
+    6: R`<div class="bt">Sorular 6–7 için verilen denklem</div>\[(x^2+y^2+x)\,dx+xy\,dy=0\]diferansiyel denklemi veriliyor. Buna göre aşağıdaki soruları cevaplayınız.`
+  },
+  questions: [
+  { topic:"Tanıma", pos:"b",
+    text:R`\((y'')^3=\sqrt{1+(y')^2}\) diferansiyel denkleminin mertebesi, derecesi ve lineerlik durumu aşağıdakilerden hangisidir?`,
+    opts:[R`2. mertebe, 6. derece, lineer değil`, R`2. mertebe, 3. derece, lineer değil`, R`2. mertebe, 6. derece, lineer`, R`3. mertebe, 2. derece, lineer değil`, R`1. mertebe, 2. derece, lineer değil`],
+    sol:R`Derece belirlenmeden önce denklem <b>kökten kurtarılır</b>. Her iki tarafın karesi alınırsa
+      \[(y'')^6=1+(y')^2\]
+      En yüksek türev \(y''\) olduğundan <b>mertebe 2</b>, bu türevin üssü 6 olduğundan <b>derece 6</b>'dır. \(y''\) ve \(y'\) birinci dereceden olmadığı için denklem <b>lineer değildir</b>.`,
+    trap:R`Kökten kurtarmadan üsse bakıp “3. derece” demek (b şıkkı dışındaki en sık hata). Ders notu Örnek 1.2'deki kuralın aynısı.`,
+    src:R`Ders Notu, Alıştırma A.2 (notta cevapsız). Benzer: Örnek 1.2, 7. hafta Soru 1.` },
+
+  { topic:"Tanıma · Tip belirleme", pos:"c",
+    text:R`Aşağıdaki denklemlerden hangisi <b>Riccati</b> diferansiyel denklemidir?`,
+    opts:[R`\(y'=y^2+\dfrac{y}{x}-\dfrac{4}{x^2}\)`, R`\(y'+xy=x^2y^3\)`, R`\(y'+2y=e^{-x}\)`, R`\((x+2y)\,dx+(2x-y)\,dy=0\)`, R`\(y'=\cos(x-y+5)\)`],
+    sol:R`Riccati denklemi \(\;y'+P(x)y+R(x)=Q(x)y^2\;\) biçimindedir: <b>\(y^2\) terimi ile \(y\)'den bağımsız \(R(x)\) terimi birlikte</b> bulunur.
+      <ul>
+      <li>\(y'=y^2+\frac{y}{x}-\frac{4}{x^2}\;\Rightarrow\; y'-\frac1x y+\frac{4}{x^2}=y^2\): \(P=-\frac1x,\;R=\frac{4}{x^2},\;Q=1\) → <b>Riccati</b> ✔</li>
+      <li>\(y'+xy=x^2y^3\): \(R=0\), \(n=3\) → Bernoulli</li>
+      <li>\(y'+2y=e^{-x}\) → lineer</li>
+      <li>\((x+2y)dx+(2x-y)dy=0\): \(M,N\) birinci dereceden homojen (ayrıca \(M_y=N_x=2\), tam)</li>
+      <li>\(y'=\cos(x-y+5)\) → \(f(ax+by+c)\) tipi, \(z=x-y+5\)</li></ul>`,
+    trap:R`Bernoulli ile Riccati'yi karıştırmak: Bernoulli'de \(y\)'den bağımsız terim yoktur (\(R(x)=0\)).`,
+    src:R`7. hafta Soru 2–4 tipinde tanıma sorusu; Ders Notu §6 “Yöntem Seçimi” tablosu.` },
+
+  { topic:"Değişkenlerine ayrılabilir", pos:"a",
+    text:R`\((1+y^2)\,dx+xy\,dy=0,\quad y(1)=0\) başlangıç değer probleminin çözümü aşağıdakilerden hangisidir?`,
+    opts:[R`\(x^2(1+y^2)=1\)`, R`\(x^2(1+y^2)=2\)`, R`\(x(1+y^2)=1\)`, R`\(x^2+y^2=1\)`, R`\(\ln x+y^2=0\)`],
+    sol:R`Denklem \(x(1+y^2)\) ile bölünürse değişkenler ayrılır:
+      \[\frac{dx}{x}+\frac{y}{1+y^2}\,dy=0\]
+      \[\ln|x|+\tfrac12\ln(1+y^2)=\ln c_1 \;\xrightarrow{\times 2}\; \ln x^2+\ln(1+y^2)=\ln c \;\Rightarrow\; x^2(1+y^2)=c\]
+      \(y(1)=0\): \(1\cdot(1+0)=c\Rightarrow c=1\). Çözüm: \(x^2(1+y^2)=1\).`,
+    trap:R`\(\tfrac12\ln(1+y^2)\) katsayısını unutup \(x(1+y^2)=c\) yazmak.`,
+    src:R`Ders Notu, Alıştırma D.4 (cevapsız). Benzer: Örnek 5.5, 5.6.` },
+
+  { topic:"Homojen hale dönüştürülebilen", pos:"d", block:4,
+    text:R`Denklemi homojen hale getiren \(x=X+h,\;y=Y+k\) ötelemesi ve ardından \(Y=UX\) dönüşümü yapıldığında elde edilen <b>değişkenlerine ayrılmış denklem</b> aşağıdakilerden hangisidir?`,
+    opts:[R`\((h,k)=(2,1),\quad \dfrac{dX}{X}+\dfrac{1+4U}{1+4U^2}\,dU=0\)`,
+          R`\((h,k)=(1,2),\quad \dfrac{dX}{X}+\dfrac{1+4U}{1+4U^2}\,dU=0\)`,
+          R`\((h,k)=(2,1),\quad \dfrac{dX}{X}+\dfrac{1-4U}{1+4U^2}\,dU=0\)`,
+          R`\((h,k)=(2,1),\quad \dfrac{dX}{X}-\dfrac{1+4U}{1-4U^2}\,dU=0\)`,
+          R`\((h,k)=(-2,-1),\quad \dfrac{dX}{X}+\dfrac{1+4U}{1+4U^2}\,dU=0\)`],
+    sol:R`\(\frac{a_1}{a_2}=\frac11\ne\frac{b_1}{b_2}=\frac{-1}{4}\) olduğundan doğrular <b>kesişir</b>:
+      \[\begin{cases}h-k-1=0\\ h+4k-6=0\end{cases}\Rightarrow 5k=5,\;k=1,\;h=2\]
+      \(x=X+2,\;y=Y+1\) ile \((X-Y)\,dX+(X+4Y)\,dY=0\) (homojen). \(Y=UX,\;dY=U\,dX+X\,dU\):
+      \[X(1-U)\,dX+X(1+4U)(U\,dX+X\,dU)=0\;\Rightarrow\;X(1+4U^2)\,dX+X^2(1+4U)\,dU=0\]
+      \(X^2(1+4U^2)\)'ye bölünürse \(\;\dfrac{dX}{X}+\dfrac{1+4U}{1+4U^2}\,dU=0.\)`,
+    trap:R`\((h,k)\) sırasını karıştırmak ya da \(-U\,dX\) ile \(+U\,dX\) terimlerinin birbirini götürdüğünü görmeyip işaret hatası yapmak.`,
+    src:R`Ders Notu, Alıştırma E.5 (cevapsız). Kalıp: 7. hafta Soru 6–8, Örnek 5.16.` },
+
+  { topic:"Homojen hale dönüştürülebilen", pos:"e", block:4,
+    text:R`Bu diferansiyel denklemin genel çözümü aşağıdakilerden hangisidir?`,
+    opts:[R`\(\ln\!\big[(x-2)^2+4(y-1)^2\big]+\arctan\dfrac{2(y-1)}{x-2}=c\)`,
+          R`\(\ln\!\big[(x-2)^2+4(y-1)^2\big]-\arctan\dfrac{2(y-1)}{x-2}=c\)`,
+          R`\(\ln\!\big[(x-1)^2+4(y-2)^2\big]+\arctan\dfrac{2(y-2)}{x-1}=c\)`,
+          R`\(\ln\!\big[(x-2)^2+(y-1)^2\big]+\arctan\dfrac{y-1}{x-2}=c\)`,
+          R`\(\ln\!\big(x^2+4y^2\big)+\arctan\dfrac{2y}{x}=c\)`],
+    sol:R`Soru 4'teki denklemin integrali alınır. İkinci terim ikiye ayrılır:
+      \[\int\frac{1+4U}{1+4U^2}dU=\int\frac{dU}{1+4U^2}+\int\frac{4U}{1+4U^2}dU=\tfrac12\arctan(2U)+\tfrac12\ln(1+4U^2)\]
+      \[\ln|X|+\tfrac12\arctan(2U)+\tfrac12\ln(1+4U^2)=c_1\;\xrightarrow{\times2}\;\ln\!\big[X^2(1+4U^2)\big]+\arctan(2U)=c\]
+      \(U=\frac YX\): \(\ln(X^2+4Y^2)+\arctan\frac{2Y}{X}=c\). Son olarak \(X=x-2,\;Y=y-1\) yazılır.`,
+    trap:R`Hocanın kendi uyarısı: “Öteleme yapılan sorularda sonuçta X, Y yerine x, y yazmak unutulmamalıdır.” Son şık tam olarak bu hatadır.`,
+    src:R`Ders Notu, Alıştırma E.5. Kalıp: 7. hafta Soru 8.` },
+
+  { topic:"İntegral çarpanı", pos:"a", block:6,
+    text:R`Denklemi tam diferansiyel denklem haline getiren integral çarpanı aşağıdakilerden hangisidir?`,
+    opts:[R`\(\mu=x\)`, R`\(\mu=\dfrac1x\)`, R`\(\mu=e^{x}\)`, R`\(\mu=y\)`, R`\(\mu=x^2\)`],
+    sol:R`\(M=x^2+y^2+x\Rightarrow M_y=2y\), \(\;N=xy\Rightarrow N_x=y\). Tam değil.
+      \[\frac{M_y-N_x}{N}=\frac{2y-y}{xy}=\frac1x\quad(\text{yalnız }x\text{'e bağlı})\]
+      \[\mu(x)=e^{\int\frac{dx}{x}}=e^{\ln x}=x\]
+      Kontrol: \(\mu M=x^3+xy^2+x^2\Rightarrow(\mu M)_y=2xy\); \(\mu N=x^2y\Rightarrow(\mu N)_x=2xy\) ✔`,
+    trap:R`\(f(x)=\frac1x\)'i doğrudan \(\mu\) sanmak (üstel almayı unutmak).`,
+    src:R`Ders Notu, Alıştırma F.6 (cevapsız). Kalıp: 7. hafta Soru 9, Örnek 5.25.` },
+
+  { topic:"Tam diferansiyel", pos:"c", block:6,
+    text:R`Bu diferansiyel denklemin genel çözümü aşağıdakilerden hangisidir?`,
+    opts:[R`\(3x^4+4x^3+6x^2y^2=c\)`, R`\(x^4+x^3+x^2y^2=c\)`, R`\(4x^4+3x^3+6x^2y^2=c\)`, R`\(3x^4+4x^3-6x^2y^2=c\)`, R`\(2x^3+3x^2+6xy^2=c\)`],
+    sol:R`\(\mu=x\) ile çarpılan denklem: \((x^3+xy^2+x^2)\,dx+x^2y\,dy=0\) (tam).
+      \[F=\int(x^3+xy^2+x^2)\,dx+\varphi(y)=\frac{x^4}{4}+\frac{x^2y^2}{2}+\frac{x^3}{3}+\varphi(y)\]
+      \(F_y=x^2y+\varphi'(y)=x^2y\Rightarrow\varphi'(y)=0\).
+      \[\frac{x^4}{4}+\frac{x^3}{3}+\frac{x^2y^2}{2}=c_1\;\xrightarrow{\times12}\;3x^4+4x^3+6x^2y^2=c\]`,
+    trap:R`Son şık, \(\mu\) ile çarpmadan integral almaya çalışmanın sonucudur. Ayrıca 12 ile çarparken katsayıları karıştırmamak gerekir.`,
+    src:R`Ders Notu, Alıştırma F.6. Kalıp: 7. hafta Soru 10.` },
+
+  { topic:"Lineer", pos:"b",
+    text:R`\(y'+2xy=x,\quad y(0)=1\) başlangıç değer problemi için integral çarpanı ve çözüm aşağıdakilerin hangisinde birlikte doğru verilmiştir?`,
+    opts:[R`\(\mu=e^{x^2},\quad y=\dfrac{1+e^{-x^2}}{2}\)`, R`\(\mu=e^{x^2},\quad y=\dfrac{1+e^{x^2}}{2}\)`, R`\(\mu=e^{2x},\quad y=\dfrac{1+e^{-2x}}{2}\)`, R`\(\mu=e^{-x^2},\quad y=\dfrac{1+e^{x^2}}{2}\)`, R`\(\mu=e^{x^2},\quad y=\dfrac12+e^{-x^2}\)`],
+    sol:R`Denklem zaten standart biçimde: \(P(x)=2x,\;Q(x)=x\).
+      \[\mu=e^{\int 2x\,dx}=e^{x^2},\qquad \big(e^{x^2}y\big)'=xe^{x^2}\;\Rightarrow\;e^{x^2}y=\tfrac12e^{x^2}+c\]
+      \[y=\tfrac12+c\,e^{-x^2},\qquad y(0)=1\Rightarrow 1=\tfrac12+c\Rightarrow c=\tfrac12\]
+      \[y=\frac{1+e^{-x^2}}{2}\]`,
+    trap:R`\(\int 2x\,dx\) yerine \(2x\) yazıp \(\mu=e^{2x}\) bulmak; ya da başlangıç koşulunda \(c=1\) almak (son şık).`,
+    src:R`Ders Notu, Alıştırma G.3 (cevapsız). Kalıp: 7. hafta Soru 14–16, Örnek 5.30, 5.36.` },
+
+  { topic:"Bernoulli", pos:"e",
+    text:R`\(y'-\dfrac{2}{x}\,y=-x^2y^2,\quad x>0\) Bernoulli diferansiyel denkleminin genel çözümü aşağıdakilerden hangisidir?`,
+    opts:[R`\(y=\dfrac{5x^2}{x^5+c}\)`, R`\(y=\dfrac{x^2}{x^5+c}\)`, R`\(y=\dfrac{5x^2}{c-x^5}\)`, R`\(y=\dfrac{x^5+c}{5x^2}\)`, R`\(y=\dfrac{5x}{x^4+c}\)`],
+    sol:R`\(n=2\). Terimler \(y^2\)'ye bölünür: \(\;y^{-2}y'-\frac2x\,y^{-1}=-x^2\).
+      \(z=y^{-1}\Rightarrow z'=-y^{-2}y'\):
+      \[-z'-\frac2x z=-x^2\;\Rightarrow\; z'+\frac2x z=x^2\]
+      \[\mu=e^{\int\frac2x dx}=x^2,\qquad (x^2z)'=x^4\Rightarrow x^2z=\frac{x^5}{5}+c_1\Rightarrow z=\frac{x^5+c}{5x^2}\]
+      \(y=\dfrac1z=\dfrac{5x^2}{x^5+c}\) (\(5c_1\) yeniden \(c\) adlandırıldı).`,
+    trap:R`\(z\)'yi bulup \(y=1/z\)'ye dönmeyi unutmak (ters çevrilmiş şık), \(z'=-y^{-2}y'\) içindeki eksiyi unutmak, 5 katsayısını kaybetmek.`,
+    src:R`Ders Notu, Alıştırma H.3 (cevapsız). Kalıp: 7. hafta Soru 17–18, Örnek 5.37.` },
+
+  { topic:"Riccati", pos:"d",
+    text:R`\(y'=1+x^2-2xy+y^2\) Riccati diferansiyel denkleminin bir özel çözümü \(y_1=x\)'tir. \(y=y_1+\dfrac1z\) dönüşümü ile bulunan genel çözüm aşağıdakilerden hangisidir?`,
+    opts:[R`\(y=x+\dfrac{1}{c-x}\)`, R`\(y=x+\dfrac{1}{x+c}\)`, R`\(y=x+\dfrac{1}{c-\frac{x^2}{2}}\)`, R`\(y=\dfrac{1}{c-x}\)`, R`\(y=x^2+\dfrac{1}{c-x}\)`],
+    sol:R`\(y=x+\frac1z\Rightarrow y'=1-\frac{z'}{z^2}\). Denklemde yerine yazılırsa
+      \[1-\frac{z'}{z^2}=1+x^2-2x\Big(x+\frac1z\Big)+\Big(x+\frac1z\Big)^2=1+x^2-2x^2-\frac{2x}{z}+x^2+\frac{2x}{z}+\frac{1}{z^2}\]
+      Sadeleşince \(-\dfrac{z'}{z^2}=\dfrac{1}{z^2}\Rightarrow z'=-1\Rightarrow z=c-x\).
+      \[y=x+\frac{1}{c-x}\]`,
+    trap:R`\(y'=1-\frac{z'}{z^2}\) türevindeki eksiyi unutursanız \(z'=1\) çıkar ve \(x+\frac1{x+c}\) şıkkına düşersiniz. \(y_1\)'i eklemeyi unutmak da ayrı bir çeldirici.`,
+    src:R`Ders Notu, Alıştırma I.3 (cevapsız). Kalıp: 7. hafta Soru 19–20, Örnek 5.44.` }
+  ]
+},
+
+B: {
+  name: "B Grubu",
+  blocks: {
+    4: R`<div class="bt">Sorular 4–5 için verilen denklem</div>\[(2x+3y-1)\,dx+(4x+6y+2)\,dy=0\]diferansiyel denklemi veriliyor. Buna göre aşağıdaki soruları cevaplayınız.`,
+    6: R`<div class="bt">Sorular 6–7 için verilen denklem</div>\[y\,(1+xy)\,dx-x\,dy=0\]diferansiyel denklemi veriliyor. Bu denklemde integral çarpanının yalnızca \(y\)'ye bağlı olduğuna dikkat ederek aşağıdaki soruları cevaplayınız.`
+  },
+  questions: [
+  { topic:"Tanıma", pos:"c",
+    text:R`\(x\,y''+\cos(y)\,y'=0\) denkleminin mertebesi, derecesi ve lineerlik durumu aşağıdakilerden hangisidir?`,
+    opts:[R`2. mertebe, derecesi yok, lineer değil`, R`2. mertebe, 1. derece, lineer`, R`2. mertebe, 1. derece, lineer değil`, R`1. mertebe, derecesi yok, lineer değil`, R`2. mertebe, 2. derece, lineer değil`],
+    sol:R`En yüksek türev \(y''\) → <b>mertebe 2</b>.<br>
+      Ders notundaki tanıma göre derece, denklem \(y\) ve türevlerine göre <b>polinom</b> biçimine getirilebiliyorsa tanımlıdır. \(\cos(y)\) terimi bunu engeller → <b>derecesi yoktur</b> (Örnek 1.4'teki \(e^y y'\) durumuyla aynı).<br>
+      \(y'\)'nün katsayısı \(\cos y\), yani bağımlı değişkene bağlı → <b>lineer değildir</b>.`,
+    trap:R`Yalnız \(y''\)'nün üssüne bakıp “1. derece” demek. Hocanın notu açık: “bağımlı değişken üstel, logaritmik, trigonometrik bir fonksiyonun içinde kalıyorsa denklemin derecesi yoktur.”`,
+    src:R`Ders Notu, Alıştırma A.3 (cevapsız). Benzer: Örnek 1.4, 1.5.` },
+
+  { topic:"Tanıma · Tamlık testi", pos:"b",
+    text:R`Aşağıdaki denklemlerden hangisi <b>tam diferansiyel</b> denklemdir?`,
+    opts:[R`\((2xy+3)\,dx+(x^2-1)\,dy=0\)`, R`\((x+y)\,dx+(y-x)\,dy=0\)`, R`\(y\,dx+2x\,dy=0\)`, R`\((x^2+y^2)\,dx+xy\,dy=0\)`, R`\(x^2y\,dx+xy^2\,dy=0\)`],
+    sol:R`Tamlık koşulu \(M_y=N_x\):
+      <ul><li>\((2xy+3)dx+(x^2-1)dy\): \(M_y=2x,\;N_x=2x\) ✔ <b>tam</b></li>
+      <li>\((x+y)dx+(y-x)dy\): \(1\ne-1\)</li>
+      <li>\(y\,dx+2x\,dy\): \(1\ne 2\)</li>
+      <li>\((x^2+y^2)dx+xy\,dy\): \(2y\ne y\)</li>
+      <li>\(x^2y\,dx+xy^2dy\): \(x^2\ne y^2\)</li></ul>`,
+    trap:R`\(M_x\) ile \(N_y\)'yi (yanlış çapraz türevleri) karşılaştırmak.`,
+    src:R`Ders Notu, Alıştırma F.1 (cevapsız). Kalıp: 7. hafta Soru 4.` },
+
+  { topic:"Değişkenlerine ayrılabilir", pos:"e",
+    text:R`\(\sec^2x\,\tan y\,dx+\sec^2y\,\tan x\,dy=0,\quad y\!\left(\tfrac{\pi}{4}\right)=\tfrac{\pi}{4}\) başlangıç değer probleminin çözümü aşağıdakilerden hangisidir?`,
+    opts:[R`\(\tan x\,\tan y=1\)`, R`\(\tan x+\tan y=2\)`, R`\(\dfrac{\tan x}{\tan y}=1\)`, R`\(\sin x\,\sin y=\tfrac12\)`, R`\(\tan x\,\tan y=\tfrac{\pi}{4}\)`],
+    sol:R`Denklem \(\tan x\,\tan y\) ile bölünür:
+      \[\frac{\sec^2x}{\tan x}\,dx+\frac{\sec^2y}{\tan y}\,dy=0\]
+      Paylar paydaların türevi olduğundan \(\;\ln|\tan x|+\ln|\tan y|=\ln c\Rightarrow \tan x\,\tan y=c\).
+      \(x=y=\frac\pi4\): \(1\cdot1=c\Rightarrow c=1\).`,
+    trap:R`Sabiti hesaplarken \(\tan\frac\pi4=1\) yerine \(\frac\pi4\) yazmak (son şık).`,
+    src:R`Ders Notu, Alıştırma D.3 (cevapsız). Benzer: Örnek 5.3.` },
+
+  { topic:"Homojen hale dönüştürülebilen", pos:"a", block:4,
+    text:R`Bu denklemi çözmek için uygun dönüşüm ve elde edilen <b>değişkenlerine ayrılmış denklem</b> aşağıdakilerden hangisidir?`,
+    opts:[R`\(z=2x+3y,\quad dx-\dfrac{2(z+1)}{z+7}\,dz=0\)`,
+          R`\(x=X+h,\;y=Y+k\) ötelemesi ile homojen denklem elde edilir`,
+          R`\(z=2x+3y,\quad dx+\dfrac{2(z+1)}{z+7}\,dz=0\)`,
+          R`\(z=2x+3y,\quad dx-\dfrac{2(z-1)}{z+7}\,dz=0\)`,
+          R`\(z=2x+3y,\quad dx-\dfrac{z+1}{z+7}\,dz=0\)`],
+    sol:R`\(\frac{a_1}{a_2}=\frac24=\frac{b_1}{b_2}=\frac36=\frac12\) → doğrular <b>paralel</b>, kesişim noktası yok; öteleme yapılamaz. \(z=2x+3y\) alınır:
+      \[dz=2\,dx+3\,dy\Rightarrow dy=\frac{dz-2\,dx}{3},\qquad 4x+6y+2=2z+2\]
+      \[(z-1)\,dx+(2z+2)\frac{dz-2dx}{3}=0\;\xrightarrow{\times3}\;-(z+7)\,dx+2(z+1)\,dz=0\]
+      \(-(z+7)\)'ye bölünürse \(\;dx-\dfrac{2(z+1)}{z+7}\,dz=0.\)`,
+    trap:R`Doğruların paralel olduğunu kontrol etmeden öteleme denemek (sistemin çözümü yoktur), \(dy\) yerine yazarken \(-2dx\) terimini unutmak.`,
+    src:R`Ders Notu, Alıştırma E.6 (cevapsız). Benzer: Örnek 5.17.` },
+
+  { topic:"Homojen hale dönüştürülebilen", pos:"d", block:4,
+    text:R`Bu diferansiyel denklemin genel çözümü aşağıdakilerden hangisidir?`,
+    opts:[R`\(x+2y-4\ln|2x+3y+7|=c\)`, R`\(x+2y+4\ln|2x+3y+7|=c\)`, R`\(x+2y-4\ln|2x+3y-7|=c\)`, R`\(x-2y-4\ln|2x+3y+7|=c\)`, R`\(2x+3y-12\ln|2x+3y+7|=c\)`],
+    sol:R`Bölme yapılırsa \(\dfrac{2(z+1)}{z+7}=2-\dfrac{12}{z+7}\):
+      \[x-2z+12\ln|z+7|=c_1\]
+      \(z=2x+3y\) yazılırsa \(x-4x-6y+12\ln|2x+3y+7|=c_1\), yani \(-3x-6y+12\ln|2x+3y+7|=c_1\).
+      \(-3\)'e bölünüp sabit yeniden adlandırılırsa \(\;x+2y-4\ln|2x+3y+7|=c.\)`,
+    trap:R`\(z\) yerine \(2x+3y\) yazdıktan sonra \(x\) terimlerini toplamayı unutmak (son şık), ln teriminin işaretini karıştırmak.`,
+    src:R`Ders Notu, Alıştırma E.6.` },
+
+  { topic:"İntegral çarpanı", pos:"b", block:6,
+    text:R`Denklemi tam diferansiyel yapan integral çarpanı aşağıdakilerden hangisidir?`,
+    opts:[R`\(\mu=\dfrac{1}{y^2}\)`, R`\(\mu=y^2\)`, R`\(\mu=\dfrac{1}{x^2}\)`, R`\(\mu=x\)`, R`\(\mu=\dfrac{1}{xy}\)`],
+    sol:R`\(M=y+xy^2\Rightarrow M_y=1+2xy\); \(\;N=-x\Rightarrow N_x=-1\). Tam değil.<br>
+      \(\frac{M_y-N_x}{N}=\frac{2+2xy}{-x}\) yalnız \(x\)'e bağlı değil. \(\frac{N_x-M_y}{M}\) denenir:
+      \[\frac{N_x-M_y}{M}=\frac{-1-1-2xy}{y(1+xy)}=\frac{-2(1+xy)}{y(1+xy)}=-\frac2y\]
+      \[\mu(y)=e^{\int-\frac2y\,dy}=e^{-2\ln y}=\frac{1}{y^2}\]`,
+    trap:R`7. hafta Soru 12'nin cevabı \(y^2\) idi; burada işaret ters çıkıyor. Formüldeki eksiyi atlayan, \(y^2\) şıkkına düşer.`,
+    src:R`Ders Notu, Alıştırma F.7 (cevapsız). Kalıp: 7. hafta Soru 12–13, Örnek 5.26.` },
+
+  { topic:"Tam diferansiyel", pos:"e", block:6,
+    text:R`Bu diferansiyel denklemin genel çözümü aşağıdakilerden hangisidir?`,
+    opts:[R`\(2x+x^2y=cy\)`, R`\(2x-x^2y=cy\)`, R`\(x+x^2y=cy\)`, R`\(2x+x^2y=c\)`, R`\(2y+x^2y=cx\)`],
+    sol:R`\(\mu=\frac1{y^2}\) ile: \(\;\Big(\frac1y+x\Big)dx-\frac{x}{y^2}\,dy=0\), \(\;M_y=-\frac1{y^2}=N_x\) ✔
+      \[F=\int\Big(\frac1y+x\Big)dx+\varphi(y)=\frac xy+\frac{x^2}{2}+\varphi(y)\]
+      \(F_y=-\frac{x}{y^2}+\varphi'(y)=-\frac{x}{y^2}\Rightarrow\varphi'=0\).
+      \[\frac xy+\frac{x^2}{2}=c_1\;\xrightarrow{\times 2y}\;2x+x^2y=cy\]`,
+    trap:R`Paydayı temizlerken sağ taraftaki sabiti de \(y\) ile çarpmayı unutmak (\(=c\) şıkkı).`,
+    src:R`Ders Notu, Alıştırma F.7.` },
+
+  { topic:"Lineer", pos:"c",
+    text:R`\(y'+\dfrac{2}{x}\,y=\dfrac{\cos x}{x^2},\quad x>0\) lineer diferansiyel denkleminin integral çarpanı ve genel çözümü aşağıdakilerin hangisinde birlikte doğru verilmiştir?`,
+    opts:[R`\(\mu=x^2,\quad y=\dfrac{\sin x+c}{x^2}\)`, R`\(\mu=e^{2x},\quad y=(\sin x+c)\,e^{-2x}\)`, R`\(\mu=x^2,\quad y=\dfrac{\cos x+c}{x^2}\)`, R`\(\mu=\dfrac1{x^2},\quad y=x^2(\sin x+c)\)`, R`\(\mu=x^2,\quad y=\dfrac{c-\sin x}{x^2}\)`],
+    sol:R`\(P(x)=\frac2x,\;Q(x)=\frac{\cos x}{x^2}\).
+      \[\mu=e^{\int\frac2x dx}=e^{2\ln x}=x^2,\qquad (x^2y)'=x^2\cdot\frac{\cos x}{x^2}=\cos x\]
+      \[x^2y=\sin x+c\;\Rightarrow\; y=\frac{\sin x+c}{x^2}\]`,
+    trap:R`\(P(x)=\frac2x\) yerine \(2\) okuyup \(\mu=e^{2x}\) bulmak (7. hafta Soru 14'teki çeldiricinin aynısı), \(\int\cos x\,dx\)'te işaret hatası.`,
+    src:R`Ders Notu, Alıştırma G.5 (cevapsız). Kalıp: 7. hafta Soru 14–15, Örnek 5.33–5.34.` },
+
+  { topic:"Bernoulli", pos:"a",
+    text:R`\(2y'+y=\dfrac{1}{y}\) diferansiyel denkleminin genel çözümü aşağıdakilerden hangisidir?`,
+    opts:[R`\(y^2=1+c\,e^{-x}\)`, R`\(y^2=1+c\,e^{x}\)`, R`\(y=1+c\,e^{-x/2}\)`, R`\(y^2=1+c\,e^{-x/2}\)`, R`\(y^{-2}=1+c\,e^{-x}\)`],
+    sol:R`Önce standart biçim: \(\;y'+\frac12y=\frac12y^{-1}\) → Bernoulli, <b>\(n=-1\)</b>.
+      \(z=y^{1-n}=y^{2}\Rightarrow z'=2yy'\). Denklem \(2y\) ile çarpılırsa:
+      \[2yy'+y^2=1\;\Rightarrow\; z'+z=1\]
+      \[\mu=e^{x},\quad (e^xz)'=e^x\Rightarrow e^xz=e^x+c\Rightarrow z=1+c\,e^{-x}\]
+      \(y^2=1+c\,e^{-x}\).`,
+    trap:R`\(n=-1\) iken \(z=y^{-2}\) almak (son şık); 2'ye bölmeyi unutup üste \(-x/2\) taşımak.`,
+    src:R`Ders Notu, Alıştırma H.5 (“önce n değerini belirleyiniz”, cevapsız).` },
+
+  { topic:"Riccati", pos:"d",
+    text:R`\(y'+y^2-(1+2e^x)\,y+e^{2x}=0\) Riccati denkleminin bir özel çözümü \(y_1=e^x\)'tir. \(y=y_1+\dfrac1z\) dönüşümü ile bulunan genel çözüm aşağıdakilerden hangisidir?`,
+    opts:[R`\(y=e^x+\dfrac{1}{1+c\,e^{-x}}\)`, R`\(y=e^x+\dfrac{1}{1+c\,e^{x}}\)`, R`\(y=e^x+\dfrac{1}{c\,e^{-x}-1}\)`, R`\(y=e^x+1+c\,e^{-x}\)`, R`\(y=\dfrac{1}{1+c\,e^{-x}}\)`],
+    sol:R`\(y=e^x+\frac1z\Rightarrow y'=e^x-\frac{z'}{z^2}\). Yerine yazılırsa:
+      \[e^x-\frac{z'}{z^2}+e^{2x}+\frac{2e^x}{z}+\frac1{z^2}-e^x-\frac1z-2e^{2x}-\frac{2e^x}{z}+e^{2x}=0\]
+      \(e^x\)'li terimler birbirini götürür: \(-\dfrac{z'}{z^2}+\dfrac1{z^2}-\dfrac1z=0\;\xrightarrow{\times(-z^2)}\; z'+z=1\).
+      \[z=1+c\,e^{-x}\;\Rightarrow\; y=e^x+\frac{1}{1+c\,e^{-x}}\]`,
+    trap:R`\(z\) bulunduktan sonra \(1/z\) yerine \(z\) eklemek (\(e^x+1+ce^{-x}\) şıkkı) ya da \(y_1\)'i unutmak.`,
+    src:R`Ders Notu, Alıştırma I.2 (cevapsız). Kalıp: 7. hafta Soru 19–20.` }
+  ]
+}
+};
+
+/* ============================================================ */
+const LET = ["a","b","c","d","e"];
+function ordered(q){ const i = LET.indexOf(q.pos); const arr = q.opts.slice(1); arr.splice(i,0,q.opts[0]); return arr; }
+function correctLetter(q){ return q.pos; }
+
+let G = localStorage.getItem("dd-group") || "A";
+let MODE = localStorage.getItem("dd-mode") || "exam";
+let state = loadState();
+let tick = null;
+
+function key(){ return "dd-vize-state-" + G; }
+function loadState(){
+  try { return JSON.parse(localStorage.getItem("dd-vize-state-" + (localStorage.getItem("dd-group")||"A"))) || fresh(); }
+  catch(e){ return fresh(); }
+}
+function fresh(){ return { ans:{}, finished:false, start:null, end:null, revealed:{} }; }
+function save(){ localStorage.setItem(key(), JSON.stringify(state)); }
+
+function renderMath(el){
+  if (window.renderMathInElement) {
+    renderMathInElement(el, { delimiters:[{left:"\\[",right:"\\]",display:true},{left:"\\(",right:"\\)",display:false}], throwOnError:false });
+  }
+}
+
+function renderHead(){
+  const ex = EXAMS[G];
+  document.getElementById("examHead").innerHTML = `
+    <h2>Diferansiyel Denklemler · Vize Deneme Sınavı · ${ex.name}</h2>
+    <div class="meta">
+      <span>📄 10 soru · her soru 10 puan</span>
+      <span>🔤 5 seçenek (a–e), tek doğru</span>
+      <span>📚 Konular: vize öncesi tüm konular</span>
+      <span>⏱ Önerilen süre: 60 dk</span>
+    </div>
+    <ol>
+      <li>Her denklemi önce <b>standart biçime</b> getirin; tip ancak ondan sonra belli olur.</li>
+      <li>Bağlantılı sorularda (4–5 ve 6–7) aynı denklem kullanılır.</li>
+      <li>Şıklar yakınsa, bulduğunuz çözümü denklemde yerine koyarak kontrol edin.</li>
+    </ol>`;
+}
+
+function renderQuestions(){
+  const ex = EXAMS[G];
+  const box = document.getElementById("questions");
+  let html = "";
+  ex.questions.forEach((q,i)=>{
+    const n = i+1;
+    if (ex.blocks[n]) html += `<div class="block">${ex.blocks[n]}</div>`;
+    const opts = ordered(q);
+    const chosen = state.ans[n];
+    const show = state.finished || (MODE==="study" && state.revealed[n]);
+    let cls = "q";
+    if (show){ cls += chosen ? (chosen===q.pos ? " correct" : " wrong") : " blank"; }
+    html += `<div class="${cls}${show?' locked':''}" id="q${n}">
+      <div class="qh"><span class="qn">Soru ${n}</span><span class="topic">${q.topic}</span><span class="pts">10 puan</span></div>
+      <div class="qt">${q.text}</div>
+      <div class="opts">` +
+      opts.map((o,j)=>{
+        const L = LET[j];
+        let oc = "opt";
+        if (show){
+          if (L===q.pos) oc += " isok";
+          else if (L===chosen) oc += " isbad";
+        } else if (L===chosen) oc += " sel";
+        return `<div class="${oc}" data-q="${n}" data-l="${L}"><span class="L">${L}</span><span>${o}</span></div>`;
+      }).join("") +
+      `</div>` +
+      (show ? `<details class="sol" open><summary>Çözüm · Doğru cevap: ${q.pos})</summary>
+          <div class="solbody">${q.sol}
+          <div class="trap"><b>⚠ Hocanın tuzağı:</b> ${q.trap}</div>
+          <div class="src"><b>Kaynak / kalıp:</b> ${q.src}</div></div></details>` : "") +
+      `</div>`;
+  });
+  box.innerHTML = html;
+  box.querySelectorAll(".opt").forEach(el=>el.addEventListener("click", onPick));
+  renderMath(box);
+  updateProgress();
+}
+
+function onPick(e){
+  const el = e.currentTarget;
+  const n = +el.dataset.q, L = el.dataset.l;
+  if (state.finished) return;
+  if (MODE==="study" && state.revealed[n]) return;
+  if (!state.start){ state.start = Date.now(); startTimer(); }
+  state.ans[n] = L;
+  if (MODE==="study") state.revealed[n] = true;
+  save();
+  renderQuestions();
+  if (MODE==="study") document.getElementById("q"+n).scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+function updateProgress(){
+  const c = Object.keys(state.ans).length;
+  document.getElementById("progress").textContent = `${c}/10 işaretli`;
+  document.getElementById("btnFinish").disabled = state.finished;
+}
+
+function fmt(ms){ const s = Math.floor(ms/1000); return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0"); }
+function startTimer(){
+  clearInterval(tick);
+  const t = document.getElementById("timer");
+  const upd = ()=>{
+    if (!state.start){ t.textContent = "⏱ 00:00"; return; }
+    const end = state.end || Date.now();
+    t.textContent = "⏱ " + fmt(end - state.start);
+  };
+  upd();
+  if (!state.end) tick = setInterval(upd, 1000);
+}
+
+function finish(){
+  if (state.finished) return;
+  const unanswered = 10 - Object.keys(state.ans).length;
+  if (unanswered>0 && !confirm(`${unanswered} soru boş. Yine de sınavı bitirmek istiyor musun?`)) return;
+  state.finished = true;
+  state.end = Date.now();
+  if (!state.start) state.start = state.end;
+  save();
+  clearInterval(tick); startTimer();
+  renderQuestions(); renderResult();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function renderResult(){
+  const r = document.getElementById("result");
+  if (!state.finished){ r.classList.remove("show"); r.innerHTML=""; return; }
+  const ex = EXAMS[G];
+  let d=0,y=0,b=0, chips="";
+  ex.questions.forEach((q,i)=>{
+    const n=i+1, a=state.ans[n];
+    let k="b"; if(!a){b++;} else if(a===q.pos){d++;k="c";} else {y++;k="w";}
+    chips += `<span class="chip ${k}" onclick="document.getElementById('q${n}').scrollIntoView({behavior:'smooth'})">S${n}: ${a||"–"} ${k==="c"?"✔":k==="w"?"✘ ("+q.pos+")":"(boş)"}</span>`;
+  });
+  const dur = fmt((state.end||Date.now()) - (state.start||Date.now()));
+  let msg = d>=9 ? "Mükemmel! Vizeye hazırsın." : d>=7 ? "Çok iyi! Yanlış yaptığın konuların çözümlerini tekrar oku." : d>=5 ? "Fena değil; tuzak notlarını dikkatle incele." : "Ders notundaki alıştırmalara (A–I) ve 7. hafta sorularına dön, sonra diğer grubu dene.";
+  r.innerHTML = `<div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap">
+      <div><div class="score">${d*10} / 100</div><div style="color:var(--muted)">${EXAMS[G].name} · Süre: ${dur}</div></div>
+      <div>✔ Doğru: <b>${d}</b> &nbsp; ✘ Yanlış: <b>${y}</b> &nbsp; ○ Boş: <b>${b}</b><br><span style="color:var(--muted)">${msg}</span></div>
+    </div><div class="chips">${chips}</div>`;
+  r.classList.add("show");
+}
+
+function renderKey(){
+  let h="";
+  ["A","B"].forEach(g=>{
+    const ex=EXAMS[g];
+    h += `<div><h4 style="margin:0 0 8px">${ex.name}</h4><table><tr><th>Soru</th><th>Cevap</th><th>Konu</th></tr>` +
+      ex.questions.map((q,i)=>`<tr><td>${i+1}</td><td><b>${q.pos}</b></td><td>${q.topic}</td></tr>`).join("") + `</table></div>`;
+  });
+  document.getElementById("keyGrid").innerHTML = h;
+}
+
+function setGroup(g){
+  G = g; localStorage.setItem("dd-group", g);
+  try { state = JSON.parse(localStorage.getItem(key())) || fresh(); } catch(e){ state = fresh(); }
+  document.querySelectorAll("#segGroup button").forEach(b=>b.classList.toggle("active", b.dataset.g===g));
+  clearInterval(tick); startTimer();
+  renderHead(); renderQuestions(); renderResult();
+}
+function setMode(m){
+  MODE = m; localStorage.setItem("dd-mode", m);
+  document.querySelectorAll("#segMode button").forEach(b=>b.classList.toggle("active", b.dataset.m===m));
+  renderQuestions();
+}
+
+function init(){
+  document.querySelectorAll("nav.tabs button").forEach(b=>b.addEventListener("click", ()=>{
+    document.querySelectorAll("nav.tabs button").forEach(x=>x.classList.toggle("active", x===b));
+    document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active", p.id==="panel-"+b.dataset.tab));
+    window.scrollTo({top:0});
+  }));
+  document.querySelectorAll("#segGroup button").forEach(b=>b.addEventListener("click", ()=>setGroup(b.dataset.g)));
+  document.querySelectorAll("#segMode button").forEach(b=>b.addEventListener("click", ()=>setMode(b.dataset.m)));
+  document.getElementById("btnFinish").addEventListener("click", finish);
+  document.getElementById("btnReset").addEventListener("click", ()=>{
+    if (!confirm(EXAMS[G].name + " için tüm cevaplar silinsin mi?")) return;
+    state = fresh(); save(); clearInterval(tick); startTimer(); renderQuestions(); renderResult();
+  });
+  document.getElementById("btnShowKey").addEventListener("click", ()=>{
+    renderKey(); document.getElementById("keyGrid").style.display="grid";
+    document.getElementById("btnShowKey").style.display="none"; document.getElementById("keyLockMsg").style.display="none";
+  });
+  setMode(MODE);
+  setGroup(G);
+  renderMath(document.getElementById("panel-analysis"));
+}
+window.addEventListener("DOMContentLoaded", ()=>{
+  const wait = ()=> window.renderMathInElement ? init() : setTimeout(wait, 50);
+  wait();
+});
+</script>
+</body>
+</html>
